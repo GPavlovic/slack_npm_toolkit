@@ -1,0 +1,8 @@
+{
+    "watch": [
+      "src/**/*.ts"
+    ],
+    "exec": "node --inspect ./node_modules/.bin/ts-node --project tsconfig.json src/index.ts ",
+    "ext": "ts json",
+    "inspect": true
+}
