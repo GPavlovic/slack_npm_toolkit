@@ -1,5 +1,5 @@
 {
-  "name": "npm_version_tracker",
+  "name": "slack_npm_toolkit",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/GPavlovic/npm_version_tracker.git"
+    "url": "git+https://github.com/GPavlovic/slack_npm_toolkit.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/GPavlovic/npm_version_tracker/issues"
+    "url": "https://github.com/GPavlovic/slack_npm_toolkit/issues"
   },
-  "homepage": "https://github.com/GPavlovic/npm_version_tracker#readme",
+  "homepage": "https://github.com/GPavlovic/slack_npm_toolkit#readme",
   "dependencies": {
     "axios": "^0.19.0",
     "cookie-parser": "^1.4.4",
