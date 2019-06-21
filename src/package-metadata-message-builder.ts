@@ -26,7 +26,7 @@ const buildPackageMetadataBlocks = (packageMetadata: PackageMetadata): any[] =>
     {
         messageBlocks.push(buildMarkdownContextBlock(versionsLiteral));
     }
-    // Description & repo
+    // Description & homepage
     messageBlocks.push(buildMarkdownSectionBlock(`${packageMetadata.description}\n <${packageMetadata.homepage}|Homepage>`));
     return messageBlocks;
 };
