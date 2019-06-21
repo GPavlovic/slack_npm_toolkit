@@ -69,8 +69,8 @@ app.post('/package', async (req, res) =>
         headers: { 'Accept': 'application/json' }
     });
     const packageMetadata = registryResponse.data as PackageMetadata;
-    const messageBlocks = new SlackMessagePayload('', buildPackageMetadataBlocks(packageMetadata));
-    res.status(200).send(messageBlocks);
+    const messagePayload = new SlackMessagePayload('', buildPackageMetadataBlocks(packageMetadata));
+    res.status(200).send(messagePayload);
 });
 
 // Start
