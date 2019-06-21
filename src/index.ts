@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import axios from 'axios';
 import { PackageMetadata } from './models/package-metadata';
+import { buildPackageMetadataBlocks } from './package-metadata-message-builder';
+import { SlackMessagePayload } from './models/slack-message-payload';
 
 const request = require('request');
 // Create the app
@@ -78,14 +80,13 @@ app.post('/command', function (req, res)
 
 app.post('/package', async (req, res) =>
 {
-    res.send('Search recieved!');
     const packageName = req.body.text;
     const registryResponse = await axios.get(`https://registry.npmjs.org/${packageName}`, {
         headers: { 'Accept': 'application/json' }
     });
-    const registryData = registryResponse.data as PackageMetadata;
-    console.log(registryData);
-    // console.log(req.body);
+    const packageMetadata = registryResponse.data as PackageMetadata;
+    const messageBlocks = new SlackMessagePayload('', buildPackageMetadataBlocks(packageMetadata));
+    res.status(200).send(messageBlocks);
 });
 
 // Start
