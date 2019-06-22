@@ -1,5 +1,5 @@
-import { PackageMetadata } from './models/package-metadata';
-import { buildMarkdownSectionBlock, buildMarkdownContextBlock } from './block-builder';
+import { PackageMetadata } from '../models/package-metadata';
+import { buildMarkdownSectionBlock, buildMarkdownContextBlock, buildActionsButtonsBlock } from './block-builder';
 
 const buildPackageMetadataBlocks = (packageMetadata: PackageMetadata): any[] =>
 {
@@ -26,7 +26,7 @@ const buildPackageMetadataBlocks = (packageMetadata: PackageMetadata): any[] =>
     {
         messageBlocks.push(buildMarkdownContextBlock(versionsLiteral));
     }
-    // Description & homepage
+    // Description & Homepage
     messageBlocks.push(buildMarkdownSectionBlock(`${packageMetadata.description}\n <${packageMetadata.homepage}|Homepage>`));
     return messageBlocks;
 };
