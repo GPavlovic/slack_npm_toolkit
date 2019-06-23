@@ -59,10 +59,10 @@ app.get('/oauth', function (req, res)
 });
 
 // Route the endpoint that our slash command will point to and send back a simple response to indicate that ngrok is working
-app.post('/command', function (req, res)
-{
-    res.send('Your ngrok tunnel is up and running!');
-});
+// app.post('/command', function (req, res)
+// {
+//     res.send('Your ngrok tunnel is up and running!');
+// });
 
 // GET package metadata
 app.post('/package', async (req, res) =>
@@ -92,7 +92,8 @@ app.post('/search', async (req, res) =>
 });
 
 // Start
-app.listen(4200, () =>
+const PORT = process.env.PORT || 4200;
+app.listen(PORT, () =>
 {
-    console.log('app listening on port 4200!');
+    console.log(`app listening on port ${PORT}!`);
 });
