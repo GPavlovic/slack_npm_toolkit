@@ -4,7 +4,7 @@ import { buildDivider, buildMarkdownSectionBlock, buildMarkdownContextBlock } fr
 const buildPackageSearchMessage = (searchResults: SearchResults) =>
 {
     const packageBlocks = [];
-    // Header
+    // Header with result count
     packageBlocks.push(buildMarkdownSectionBlock(`Found *${searchResults.total}* results`));
     packageBlocks.push(buildDivider());
     for (const searchResult of searchResults.objects.slice(0, 4))
@@ -15,8 +15,10 @@ const buildPackageSearchMessage = (searchResults: SearchResults) =>
         // Divider
         packageBlocks.push(buildDivider());
     }
-    // Result count
-    packageBlocks.push(buildMarkdownContextBlock(`${new Date(searchResults.time).toLocaleTimeString()}`));
+    // Search time
+    const searchTime = new Date(searchResults.time);
+    const searchTimeUnixTimestamp = (searchTime.getTime() / 1000).toFixed(0);
+    packageBlocks.push(buildMarkdownContextBlock(`<!date^${searchTimeUnixTimestamp}^{date_num} {time_secs}|${searchTime.toLocaleTimeString()}>`));
     return packageBlocks;
 };
 
