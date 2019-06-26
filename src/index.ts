@@ -8,6 +8,7 @@ import { buildPackageMetadataBlocks } from './message-builders/package-metadata-
 import { SlackMessagePayload } from './models/slack-message-payload';
 import { SearchResults } from './models/search-result';
 import { buildPackageSearchMessage } from './message-builders/package-search-message-builder';
+import { CLIENT_ID, CLIENT_SECRET } from './secrets';
 
 const request = require('request');
 // Create the app
@@ -40,7 +41,7 @@ app.get('/oauth', function (req, res)
         // We'll do a GET call to Slack's `oauth.access` endpoint, passing our app's client ID, client secret, and the code we just got as query parameters.
         request({
             url: 'https://slack.com/api/oauth.access', //URL to hit
-            qs: { code: req.query.code, client_id: "***REMOVED***", client_secret: "***REMOVED***" }, //Query string data
+            qs: { code: req.query.code, client_id: CLIENT_ID, client_secret: CLIENT_SECRET }, //Query string data
             method: 'GET', //Specify the method
 
         }, function (error, response, body)
