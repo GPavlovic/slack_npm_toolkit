@@ -11,7 +11,6 @@ import { SlackMessagePayload } from './models/slack-message-payload';
 import { SearchResults } from './models/search-result';
 import { buildPackageSearchMessage } from './message-builders/package-search-message-builder';
 
-const request = require('request');
 const app = express();
 
 // Middleware
@@ -20,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // This route handles get request to a /oauth endpoint. We'll use this endpoint for handling the logic of the Slack oAuth process behind our app.
-app.get('/oauth', function (req, res)
+app.get('/oauth', async (req, res) =>
 {
     // When a user authorizes an app, a code query parameter is passed on the oAuth endpoint. If that code is not there, we respond with an error message
     if (!req.query.code)
@@ -32,24 +31,18 @@ app.get('/oauth', function (req, res)
     else
     {
         // We'll do a GET call to Slack's `oauth.access` endpoint, passing our app's client ID, client secret, and the code we just got as query parameters.
-        request(
-            {
-                url: 'https://slack.com/api/oauth.access', //URL to hit
-                qs: { code: req.query.code, client_id: CLIENT_ID, client_secret: CLIENT_SECRET }, //Query string data
-                method: 'GET', //Specify the method
-
-            },
-            (error, res, body) =>
-            {
-                if (error)
-                {
-                    console.log(error);
-                }
-                else
-                {
-                    res.json(body);
-                }
-            })
+        const oauthResponse = await axios.get('https://slack.com/api/oauth.access', {
+            params: { code: req.query.code, client_id: CLIENT_ID, client_secret: CLIENT_SECRET }
+        });
+        if (oauthResponse.status != 200)
+        {
+            console.log(oauthResponse.data);
+        }
+        else
+        {
+            res.status(200);
+            res.send("App successfully installed!");
+        }
     }
 });
 
