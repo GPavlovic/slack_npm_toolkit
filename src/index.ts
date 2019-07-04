@@ -4,12 +4,9 @@ import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import axios from 'axios';
 
+import registryController from './controllers/registry';
+
 import { CLIENT_ID, CLIENT_SECRET } from './secrets';
-import { PackageMetadata } from './models/package-metadata';
-import { buildPackageMetadataBlocks } from './message-builders/package-metadata-message-builder';
-import { SlackMessagePayload } from './models/slack-message-payload';
-import { SearchResults } from './models/search-result';
-import { buildPackageSearchMessage } from './message-builders/package-search-message-builder';
 
 const app = express();
 
@@ -46,32 +43,8 @@ app.get('/oauth', async (req, res) =>
     }
 });
 
-// GET package metadata
-app.post('/package', async (req, res) =>
-{
-    const packageName = req.body.text;
-    const registryResponse = await axios.get(`https://registry.npmjs.org/${packageName}`, {
-        headers: { 'Accept': 'application/json' }
-    });
-    const packageMetadata = registryResponse.data as PackageMetadata;
-    const messagePayload = new SlackMessagePayload('', buildPackageMetadataBlocks(packageMetadata));
-    res.status(200).send(messagePayload);
-});
-
-// GET search for npm package
-app.post('/search', async (req, res) =>
-{
-    const searchString = req.body.text;
-    const registryResponse = await axios.get(`https://registry.npmjs.org/-/v1/search`, {
-        headers: { 'Accept': 'application/json' },
-        params: {
-            'text': searchString
-        }
-    });
-    const searchResults = registryResponse.data as SearchResults;
-    const messagePayload = new SlackMessagePayload('', buildPackageSearchMessage(searchResults));
-    res.status(200).send(messagePayload);
-});
+// Controllers
+app.use('/registry', registryController);
 
 // Start
 const PORT = process.env.PORT || 4200;

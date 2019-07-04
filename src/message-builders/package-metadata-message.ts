@@ -1,5 +1,5 @@
 import { PackageMetadata } from '../models/package-metadata';
-import { buildMarkdownSectionBlock, buildMarkdownContextBlock, buildActionsButtonsBlock } from './block-builder';
+import { buildMarkdownSectionBlock, buildMarkdownContextBlock, buildActionsButtonsBlock } from './block';
 
 const buildPackageMetadataBlocks = (packageMetadata: PackageMetadata): any[] =>
 {

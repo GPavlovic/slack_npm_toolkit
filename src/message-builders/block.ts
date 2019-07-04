@@ -1,4 +1,4 @@
-import { buildButtonElement, buildMrkdwnElement } from "./element-builder";
+import { buildButtonElement, buildMrkdwnElement } from "./element";
 
 const buildMarkdownSectionBlock = (markdownText: string) =>
 {
@@ -30,7 +30,7 @@ const buildActionsButtonsBlock = (buttonTexts: string[]) =>
     };
 };
 
-const buildDivider = () =>
+const buildDividerBlock = () =>
 {
     return {
         "type": "divider"
@@ -42,5 +42,5 @@ export
     buildMarkdownSectionBlock,
     buildMarkdownContextBlock,
     buildActionsButtonsBlock,
-    buildDivider
+    buildDividerBlock as buildDivider
 };

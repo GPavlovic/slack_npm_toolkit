@@ -1,5 +1,5 @@
-import { SearchResults, PackageSearchResult } from './../models/search-result';
-import { buildDivider, buildMarkdownSectionBlock, buildMarkdownContextBlock } from './block-builder';
+import { SearchResults, PackageSearchResult } from '../models/search-result';
+import { buildDivider, buildMarkdownSectionBlock, buildMarkdownContextBlock } from './block';
 
 const buildPackageSearchMessage = (searchResults: SearchResults) =>
 {
