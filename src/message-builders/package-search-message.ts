@@ -3,23 +3,23 @@ import { buildDivider, buildMarkdownSectionBlock, buildMarkdownContextBlock } fr
 
 const buildPackageSearchMessage = (searchResults: SearchResults) =>
 {
-    const packageBlocks = [];
+    const packageMessageBlocks = [];
     // Header with result count
-    packageBlocks.push(buildMarkdownSectionBlock(`Found *${searchResults.total}* results`));
-    packageBlocks.push(buildDivider());
+    packageMessageBlocks.push(buildMarkdownSectionBlock(`Found *${searchResults.total}* results`));
+    packageMessageBlocks.push(buildDivider());
     for (const searchResult of searchResults.objects.slice(0, 4))
     {
         // Result contents
         let resultLinks = buildResultLinks(searchResult);
-        packageBlocks.push(buildMarkdownSectionBlock(`*${searchResult.package.name}* | ${searchResult.package.version}\n${searchResult.package.description}${resultLinks}`));
+        packageMessageBlocks.push(buildMarkdownSectionBlock(`*${searchResult.package.name}* | ${searchResult.package.version}\n${searchResult.package.description}${resultLinks}`));
         // Divider
-        packageBlocks.push(buildDivider());
+        packageMessageBlocks.push(buildDivider());
     }
     // Search time
     const searchTime = new Date(searchResults.time);
     const searchTimeUnixTimestamp = (searchTime.getTime() / 1000).toFixed(0);
-    packageBlocks.push(buildMarkdownContextBlock(`<!date^${searchTimeUnixTimestamp}^{date_num} {time_secs}|${searchTime.toLocaleTimeString()}>`));
-    return packageBlocks;
+    packageMessageBlocks.push(buildMarkdownContextBlock(`<!date^${searchTimeUnixTimestamp}^{date_num} {time_secs}|${searchTime.toLocaleTimeString()}>`));
+    return packageMessageBlocks;
 };
 
 const buildResultLinks = (searchResult: PackageSearchResult): string =>

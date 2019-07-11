@@ -6,6 +6,7 @@ import { SlackMessagePayload } from "../models/slack-message-payload";
 import { buildPackageMetadataBlocks } from "../message-builders/package-metadata-message";
 import { SearchResults } from "../models/search-result";
 import { buildPackageSearchMessage } from "../message-builders/package-search-message";
+import { buildPackageErrorMessage } from "../message-builders/error-message";
 
 const router = express.Router();
 
@@ -13,12 +14,20 @@ const router = express.Router();
 router.post('/package', async (req, res) =>
 {
     const packageName = req.body.text;
-    const registryResponse = await axios.get(`https://registry.npmjs.org/${packageName}`, {
-        headers: { 'Accept': 'application/json' }
-    });
-    const packageMetadata = registryResponse.data as PackageMetadata;
-    const messagePayload = new SlackMessagePayload('', buildPackageMetadataBlocks(packageMetadata));
-    res.status(200).send(messagePayload);
+    try
+    {
+        const registryResponse = await axios.get(`https://registry.npmjs.org/${packageName}`, {
+            headers: { 'Accept': 'application/json' }
+        });
+        const packageMetadata = registryResponse.data as PackageMetadata;
+        const messagePayload = new SlackMessagePayload('', buildPackageMetadataBlocks(packageMetadata));
+        res.status(200).send(messagePayload);
+    }
+    catch (err)
+    {
+        const messagePayload = new SlackMessagePayload('', buildPackageErrorMessage(packageName));
+        res.status(200).send(messagePayload);
+    }
 });
 
 // GET search for npm package

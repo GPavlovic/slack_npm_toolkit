@@ -1,11 +1,11 @@
 import { PackageMetadata } from '../models/package-metadata';
-import { buildMarkdownSectionBlock, buildMarkdownContextBlock, buildActionsButtonsBlock } from './block';
+import { buildMarkdownSectionBlock, buildMarkdownContextBlock } from './block';
 
 const buildPackageMetadataBlocks = (packageMetadata: PackageMetadata): any[] =>
 {
-    const messageBlocks = [];
+    const searchMessageBlocks = [];
     // Name
-    messageBlocks.push(buildMarkdownSectionBlock(`*${packageMetadata.name}*`));
+    searchMessageBlocks.push(buildMarkdownSectionBlock(`*${packageMetadata.name}*`));
     // Versions
     let versionsLiteral = ``;
     const latestVersion = packageMetadata['dist-tags'].latest;
@@ -24,10 +24,14 @@ const buildPackageMetadataBlocks = (packageMetadata: PackageMetadata): any[] =>
     }
     if (versionsLiteral != null)
     {
-        messageBlocks.push(buildMarkdownContextBlock(versionsLiteral));
+        searchMessageBlocks.push(buildMarkdownContextBlock(versionsLiteral));
     }
     // Description & Homepage
-    messageBlocks.push(buildMarkdownSectionBlock(`${packageMetadata.description}\n <${packageMetadata.homepage}|Homepage>`));
-    return messageBlocks;
+    searchMessageBlocks.push(buildMarkdownSectionBlock(`${packageMetadata.description}\n <${packageMetadata.homepage}|Homepage>`));
+    // Search time
+    const searchTime = new Date();
+    const searchTimeUnixTimestamp = (searchTime.getTime() / 1000).toFixed(0);
+    searchMessageBlocks.push(buildMarkdownContextBlock(`<!date^${searchTimeUnixTimestamp}^{date_num} {time_secs}|${searchTime.toLocaleTimeString()}>`));
+    return searchMessageBlocks;
 };
 export { buildPackageMetadataBlocks };
