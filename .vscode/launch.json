@@ -9,6 +9,16 @@
             "request": "attach",
             "name": "Attach to Node",
             "processId": "${command:PickProcess}"
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "nodemon",
+            "restart": true,
+            "internalConsoleOptions": "neverOpen",
+            "outFiles": [
+                "${workspaceFolder}/bin/**/*.js"
+            ],
         }
     ]
 }
